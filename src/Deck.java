@@ -86,6 +86,25 @@ public class Deck {
         deck = shuffled;
     }
     
+    //returns 2 hands of 7 cards each in a 2d array
+    //returns an array but I think the hands should be arraylists in the 'gofish' class so cards can easily be added/removed and can have more than 7 cards in hand at a time
+    public Card[][] dealHands(){
+        Card[][] hands = new Card[2][7];
+        for (int i = 0; i<2; i++){
+            for (int j = 0; j<7; j++){
+                hands[i][j] = deck.get(deck.size()-1);
+                deck.remove(deck.size()-1);
+            }
+        }
+        return hands;
+    }
+    
+    public Card getNextCard(){
+        Card nextCard = deck.get(deck.size()-1);
+        deck.remove(deck.size()-1);
+        return nextCard;
+    }
+    
     public void printDeck(){
         for (int i = 0; i<deck.size(); i++){
             System.out.println(deck.get(i).toString());
