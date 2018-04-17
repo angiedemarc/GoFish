@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,63 +12,83 @@
  * @author angie
  */
 public class Deck {
+    private ArrayList<Card> deck = new ArrayList<>();
     
     public Deck(){
-        Card [] deck = new Card[52];
-        for (int i = 0; i<deck.length; i++){
+
+        for (int i = 0; i<52; i++){
+            deck.add(new Card());
             //sets the suit -- 4 options
             if (i%4 == 0){
-                deck[i].setSuit("tuna");
+                deck.get(i).setSuit("tuna");
             }
             else if (i%4 == 1){
-                deck[i].setSuit("salmon");
+                deck.get(i).setSuit("salmon");
             }
             else if (i%4 == 2){
-                deck[i].setSuit("goldfish");
+                deck.get(i).setSuit("goldfish");
             }
             else{
-                deck[i].setSuit("angelfish");
+                deck.get(i).setSuit("angelfish");
             }
             //sets the symbol -- 13 options
-            if (i%13 == 0){
-                deck[i].setSymbol("A");
+            int j = 52/13;
+            if (i < j){
+                deck.get(i).setSymbol("A");
             }
-            else if (i%13 == 1){
-                deck[i].setSymbol("2");
+            else if (i< 2*j){
+                deck.get(i).setSymbol("2");
             }
-            else if (i%13 == 2){
-                deck[i].setSymbol("3");
+            else if (i< 3*j){
+                deck.get(i).setSymbol("3");
             }
-            else if (i%13 == 3){
-                deck[i].setSymbol("4");
+            else if (i< 4*j){
+                deck.get(i).setSymbol("4");
             }
-            else if (i%13 == 4){
-                deck[i].setSymbol("5");
+            else if (i< 5*j){
+                deck.get(i).setSymbol("5");
             }
-            else if (i%13 == 5){
-                deck[i].setSymbol("6");
+            else if (i< 6*j){
+                deck.get(i).setSymbol("6");
             }
-            else if (i%13 == 6){
-                deck[i].setSymbol("7");
+            else if (i< 7*j){
+                deck.get(i).setSymbol("7");
             }
-            else if (i%13 == 7){
-                deck[i].setSymbol("8");
+            else if (i< 8*j){
+                deck.get(i).setSymbol("8");
             }
-            else if (i%13 == 8){
-                deck[i].setSymbol("9");
+            else if (i< 9*j){
+                deck.get(i).setSymbol("9");
             }
-            else if (i%13 == 9){
-                deck[i].setSymbol("10");
+            else if (i< 10*j){
+                deck.get(i).setSymbol("10");
             }
-            else if (i%13 == 10){
-                deck[i].setSymbol("J");
+            else if (i< 11*j){
+                deck.get(i).setSymbol("J");
             }
-            else if (i%13 == 11){
-                deck[i].setSymbol("Q");
+            else if (i< 12*j){
+                deck.get(i).setSymbol("Q");
             }
             else{
-                deck[i].setSymbol("K");
+                deck.get(i).setSymbol("K");
             }
+        }
+    }
+    
+    public void shuffle(){
+        ArrayList<Card> shuffled = new ArrayList<>();
+        int randInt;
+        for (int i = 0; i<52; i++){
+            randInt = (int) (Math.random()*(deck.size()));
+            shuffled.add(deck.get(randInt));
+            deck.remove(randInt);
+        }
+        deck = shuffled;
+    }
+    
+    public void printDeck(){
+        for (int i = 0; i<deck.size(); i++){
+            System.out.println(deck.get(i).toString());
         }
     }
     

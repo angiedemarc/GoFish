@@ -12,6 +12,11 @@ public class Card {
     private String suit;
     private String symbol;
    
+    public Card(){
+        suit = "";
+        symbol = "";
+    }
+    
     public Card(String suit, String symbol) {
         this.suit = suit;
         this.symbol = symbol;
@@ -35,7 +40,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Suit: " + this.suit + ", Symbol" + this.symbol;
+        return "Suit: " + this.suit + ", Symbol: " + this.symbol;
     }
     
     
