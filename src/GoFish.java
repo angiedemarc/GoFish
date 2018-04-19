@@ -59,12 +59,7 @@ public class GoFish {
                 compHand.add(deck.getNextCard());
             }
         }
-        if (userTurn){
-            userTurn = false;
-        }
-        else{
-            userTurn = true;
-        }
+        userTurn = !userTurn;
     }
 
     public int getUserScore() {
