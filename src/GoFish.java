@@ -125,10 +125,10 @@ public class GoFish {
             for(int j = i + 1; j < userHand.size(); j++){
                 if(userHand.get(i).compareTo(userHand.get(j)) == 0){
                     count++;
-                    if(count == 4 || count % 4 == 0){
+                    if(count == 3 || count % 3 == 0){ //did a simpler test with integers using this layout and it didn't work properly with 4 but it did with 3??
                         foundFour = true;
                         updateUserScore();
-                        removeFromHand(userHand, userHand.get(i).getSymbol());
+                        removeFromHand(userHand, userHand.get(i).getSymbol()); //not sure about putting the remove here
                     }
                 }
             }
