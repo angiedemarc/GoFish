@@ -19,6 +19,7 @@ public class GoFish {
     boolean userTurn; //might delete later
 
     public GoFish() {
+        View view = new View(this);
         this.score = 0;
         this.deck = new Deck();
         int numPlayers = 2;
