@@ -23,6 +23,7 @@ public class GoFish {
     public GoFish() {
         this.userScore = 0;
         this.compScore = 0;
+        View view = new View(this);
         this.deck = new Deck();
         int numPlayers = 2;
         int numStartingCards = 7;
