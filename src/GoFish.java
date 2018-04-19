@@ -16,6 +16,7 @@ public class GoFish {
     ArrayList<Card> compHand = new ArrayList();
     ArrayList<Card> userHand = new ArrayList();
     Deck deck;
+    boolean userTurn; //might delete later
 
     public GoFish() {
         this.score = 0;
@@ -25,13 +26,39 @@ public class GoFish {
         Card[][] cardsDealt = deck.dealHands(numPlayers, numStartingCards);
         for (int i = 0; i < numPlayers; i++) {
             for (int j = 0; j < numStartingCards; j++) {
-                if (i==0){
+                if (i == 0) {
                     compHand.add(cardsDealt[i][j]);
-                }
-                else{
+                } else {
                     userHand.add(cardsDealt[i][j]);
                 }
             }
+        }
+        userTurn = true; //starts as user's turn - might delete later
+    }
+
+    //will be called when user clicks button 'go fish'
+    //parameter is the symbol the computer asked for
+    public void noMatchGoFish(String symbol) {
+        boolean lied = false; //'lied' will be true if they actually did have a card with that symbol
+        for (int i = 0; i < userHand.size(); i++) {
+            if (userHand.get(i).getSymbol().equals(symbol)) {
+                System.out.println("You lied!! You are going to give them this card");
+                //code to give the computer the card they asked for
+                compHand.add(userHand.get(i));
+                userHand.remove(i);
+                lied = true;
+            }
+        }
+        if (!lied) {
+            if (!deck.isEmpty()) {
+                compHand.add(deck.getNextCard());
+            }
+        }
+        if (userTurn){
+            userTurn = false;
+        }
+        else{
+            userTurn = true;
         }
     }
 
