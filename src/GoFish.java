@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -117,18 +118,19 @@ public class GoFish {
     }
    
 //a match of 4 is called a book
-  public boolean checkUserBooks(){
+    public boolean checkUserBooks(){
         boolean foundFour = false;
-        int count = 0;
-            
+        int count = 0; 
         for(int i = 0; i < userHand.size()-1; i++){
             for(int j = i + 1; j < userHand.size(); j++){
                 if(userHand.get(i).compareTo(userHand.get(j)) == 0){
                     count++;
-                    if(count == 3 || count % 3 == 0){ //did a simpler test with integers using this layout and it didn't work properly with 4 but it did with 3??
-                        foundFour = true;
+//did a simpler test with integers using this layout and it didn't work properly with 4 but it did with 3
+                    if(count == 3 || count % 3 == 0){
+                        System.out.println("You've got a book! You earned one point.");
                         updateUserScore();
-                        removeFromHand(userHand, userHand.get(i).getSymbol()); //not sure about putting the remove here
+                        removeFromHand(userHand, userHand.get(i).getSymbol());
+                        foundFour = true;
                     }
                 }
             }
@@ -159,13 +161,15 @@ public class GoFish {
         return foundFour;
     }
     
+    //had to use an iterator since you can't dynamically remove elements from arraylists
     public ArrayList<Card> removeFromHand(ArrayList<Card> hand, String symbol){
-        for(Card c: hand){
-            if(c.getSymbol().equals(symbol)){
-                hand.remove(c);
+        Iterator<Card> itr = hand.iterator();
+         while(itr.hasNext()){
+             Card c = itr.next();
+             if(c.getSymbol().equals(symbol)){
+                itr.remove();
             }
-        }
-        
+         }
         return hand;
     }
    

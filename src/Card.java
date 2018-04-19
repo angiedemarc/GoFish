@@ -76,6 +76,4 @@ public class Card implements Comparable <Card>{
        int compareVal = symbol.compareTo(otherCard.symbol);
        return compareVal;
     }
-
-
 }
