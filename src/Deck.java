@@ -19,17 +19,19 @@ public class Deck {
         for (int i = 0; i<52; i++){
             deck.add(new Card());
             //sets the suit -- 4 options
-            if (i%4 == 0){
-                deck.get(i).setSuit("tuna");
-            }
-            else if (i%4 == 1){
-                deck.get(i).setSuit("salmon");
-            }
-            else if (i%4 == 2){
-                deck.get(i).setSuit("goldfish");
-            }
-            else{
-                deck.get(i).setSuit("angelfish");
+            switch (i%4) {
+                case 0:
+                    deck.get(i).setSuit("tuna");
+                    break;
+                case 1:
+                    deck.get(i).setSuit("salmon");
+                    break;
+                case 2:
+                    deck.get(i).setSuit("goldfish");
+                    break;
+                default:
+                    deck.get(i).setSuit("angelfish");
+                    break;
             }
             //sets the symbol -- 13 options
             int j = 52/13;
@@ -86,12 +88,12 @@ public class Deck {
         deck = shuffled;
     }
     
-    //returns 2 hands of 7 cards each in a 2d array
+    //returns different hands in a multi-dimensional array
     //returns an array but I think the hands should be arraylists in the 'gofish' class so cards can easily be added/removed and can have more than 7 cards in hand at a time
-    public Card[][] dealHands(){
-        Card[][] hands = new Card[2][7];
-        for (int i = 0; i<2; i++){
-            for (int j = 0; j<7; j++){
+    public Card[][] dealHands(int numPlayers, int numCards){
+        Card[][] hands = new Card[numPlayers][numCards];
+        for (int i = 0; i<numPlayers; i++){
+            for (int j = 0; j<numCards; j++){
                 hands[i][j] = deck.get(deck.size()-1);
                 deck.remove(deck.size()-1);
             }
@@ -103,6 +105,10 @@ public class Deck {
         Card nextCard = deck.get(deck.size()-1);
         deck.remove(deck.size()-1);
         return nextCard;
+    }
+    
+    public boolean isEmpty(){
+        return deck.isEmpty();
     }
     
     public void printDeck(){
