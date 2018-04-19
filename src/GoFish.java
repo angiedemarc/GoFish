@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,14 +13,16 @@ import java.util.ArrayList;
  */
 public class GoFish {
 
-    int score;
+    int userScore;
+    int compScore;
     ArrayList<Card> compHand = new ArrayList();
     ArrayList<Card> userHand = new ArrayList();
     Deck deck;
     boolean userTurn; //might delete later
 
     public GoFish() {
-        this.score = 0;
+        this.userScore = 0;
+        this.compScore = 0;
         this.deck = new Deck();
         int numPlayers = 2;
         int numStartingCards = 7;
@@ -62,9 +65,19 @@ public class GoFish {
         }
     }
 
-    public int getScore() {
-        return score;
+    public int getUserScore() {
+        return userScore;
     }
+
+    public int getCompScore() {
+        return compScore;
+    }
+
+    public boolean isUserTurn() {
+        return userTurn;
+    }
+
+ 
 
     public ArrayList<Card> getCompHand() {
         return compHand;
@@ -78,8 +91,16 @@ public class GoFish {
         return deck;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setUserScore(int userScore) {
+        this.userScore = userScore;
+    }
+
+    public void setCompScore(int compScore) {
+        this.compScore = compScore;
+    }
+
+    public void setUserTurn(boolean userTurn) {
+        this.userTurn = userTurn;
     }
 
     public void setCompHand(ArrayList<Card> compHand) {
@@ -93,46 +114,68 @@ public class GoFish {
     public void setDeck(Deck deck) {
         this.deck = deck;
     }
+   
 
-  public boolean findFourCardsUser(){
+  public boolean checkUserBooks(){
         boolean foundFour = false;
         int count = 0;
-       
+            
         for(int i = 0; i < userHand.size()-1; i++){
-            for(int j = 0; j < userHand.size(); i++){
+            for(int j = i + 1; j < userHand.size(); j++){
                 if(userHand.get(i).compareTo(userHand.get(j)) == 0){
                     count++;
                     if(count == 4 || count % 4 == 0){
                         foundFour = true;
+                        updateUserScore();
+                        removeFromHand(userHand, userHand.get(i).getSymbol());
                     }
                 }
             }
+            count = 0;
         }
         
         return foundFour;
     }
     
-    public boolean findFourCardsComp(){
+    public boolean checkCompBooks(){
         boolean foundFour = false;
         int count = 0;
        
         for(int i = 0; i < compHand.size()-1; i++){
-            for(int j = 0; j < compHand.size(); i++){
+            for(int j = i+1; j < compHand.size(); j++){
                 if(compHand.get(i).compareTo(userHand.get(j)) == 0){
                     count++;
-                    if(count == 4 || count % 4 == 0){
+                    if(count == 3 || count % 3 == 0){
                         foundFour = true;
+                        updateCompScore();
+                        removeFromHand(compHand, compHand.get(i).getSymbol());
                     }
                 }
             }
+            count = 0;
         }
         
         return foundFour;
     }
+    
+    public ArrayList<Card> removeFromHand(ArrayList<Card> hand, String symbol){
+        for(Card c: hand){
+            if(c.getSymbol().equals(symbol)){
+                hand.remove(c);
+            }
+        }
+        
+        return hand;
+    }
    
-    public int updateScore(){
-      this.score += 1;
-      return this.score;
+    public int updateUserScore(){
+      this.userScore += 1;
+      return this.userScore;
+    }  
+    
+     public int updateCompScore(){
+      this.compScore += 1;
+      return this.compScore;
     }  
 
 }
