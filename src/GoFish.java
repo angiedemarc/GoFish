@@ -18,7 +18,7 @@ public class GoFish {
     ArrayList<Card> userHand = new ArrayList();
     Deck deck;
 
-    public GoFish(int score, Deck deck) {
+    public GoFish() {
         this.score = score;
         this.deck = deck;
     }
