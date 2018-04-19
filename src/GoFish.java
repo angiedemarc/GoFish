@@ -116,7 +116,7 @@ public class GoFish {
         this.deck = deck;
     }
    
-
+//a match of 4 is called a book
   public boolean checkUserBooks(){
         boolean foundFour = false;
         int count = 0;
