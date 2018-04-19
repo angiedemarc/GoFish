@@ -1,3 +1,6 @@
+
+import java.util.Objects;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,10 +11,10 @@
  *
  * @author angie
  */
-public class Card {
+public class Card implements Comparable <Card>{
     private String suit;
     private String symbol;
-   
+
     public Card(){
         suit = "";
         symbol = "";
@@ -42,6 +45,37 @@ public class Card {
     public String toString() {
         return "Suit: " + this.suit + ", Symbol: " + this.symbol;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.symbol);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Card other = (Card) obj;
+        if (!Objects.equals(this.symbol, other.symbol)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int compareTo(Card otherCard) {
+       int compareVal = symbol.compareTo(otherCard.symbol);
+       return compareVal;
+    }
+
+
 }
