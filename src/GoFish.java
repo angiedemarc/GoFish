@@ -94,8 +94,45 @@ public class GoFish {
         this.deck = deck;
     }
 
-    public int updateScore() {
-        return 0;
+  public boolean findFourCardsUser(){
+        boolean foundFour = false;
+        int count = 0;
+       
+        for(int i = 0; i < userHand.size()-1; i++){
+            for(int j = 0; j < userHand.size(); i++){
+                if(userHand.get(i).compareTo(userHand.get(j)) == 0){
+                    count++;
+                    if(count == 4 || count % 4 == 0){
+                        foundFour = true;
+                    }
+                }
+            }
+        }
+        
+        return foundFour;
     }
+    
+    public boolean findFourCardsComp(){
+        boolean foundFour = false;
+        int count = 0;
+       
+        for(int i = 0; i < compHand.size()-1; i++){
+            for(int j = 0; j < compHand.size(); i++){
+                if(compHand.get(i).compareTo(userHand.get(j)) == 0){
+                    count++;
+                    if(count == 4 || count % 4 == 0){
+                        foundFour = true;
+                    }
+                }
+            }
+        }
+        
+        return foundFour;
+    }
+   
+    public int updateScore(){
+      this.score += 1;
+      return this.score;
+    }  
 
 }
