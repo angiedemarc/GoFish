@@ -41,15 +41,25 @@ public class GoFish {
         userTurn = true; //starts as user's turn - might delete later
     }
 
-    //will be called when user clicks button 'go fish'
-    //parameter is the symbol the computer asked for
+    //will be called when user clicks button 'go fish' or when it is computer's turn
+    //parameter is the symbol the player asked for
     //returns 'ture' if there were no matches
     public boolean noMatchGoFish(String symbol) {
         boolean noMatches = true; //'lied' will be true if they actually did have a card with that symbol
-        for (int i = 0; i < userHand.size(); i++) {
-            if (userHand.get(i).getSymbol().equals(symbol)) {
-                System.out.println("You lied!! You are going to give them this card");
-                //code to give the computer the card they asked for
+        ArrayList<Card> playerAsking; //player asking for any cards with 'symbol'
+        ArrayList<Card> playerGiving; //player who is checking to see if they have any cards with 'symbol' in their hand
+        if (userTurn){
+            playerAsking = userHand;
+            playerGiving = compHand;
+        }
+        else{
+            playerAsking = compHand;
+            playerGiving = userHand;
+        }
+        for (int i = 0; i < playerGiving.size(); i++) {
+            if (playerGiving.get(i).getSymbol().equals(symbol)) {
+                System.out.println("Match was found");
+                //THIS CODE SWITCHES CARD WITHOUT ASKING USER
                 compHand.add(userHand.get(i));
                 userHand.remove(i);
                 noMatches = false;
@@ -84,6 +94,10 @@ public class GoFish {
 
     public ArrayList<Card> getUserHand() {
         return userHand;
+    }
+    
+    public int getUserHandSize(){
+        return userHand.size();
     }
 
     public Deck getDeck() {

@@ -15,6 +15,7 @@ public class App {
      */
     public static void main(String[] args) {
         GoFish goFish = new GoFish();
+        System.out.println(goFish.noMatchGoFish(goFish.getUserHand().get(0).getSymbol()));
     }
     
 }
