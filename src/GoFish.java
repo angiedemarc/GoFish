@@ -76,22 +76,45 @@ public class GoFish {
             playerGiving = userHand;
         }
         for (int i = 0; i < playerGiving.size(); i++) {
-            if (playerGiving.get(i).getSymbol().equals(symbol)) {
-                //THIS CODE SWITCHES CARD WITHOUT ASKING USER
-                playerAsking.add(playerGiving.get(i));
-                playerGiving.remove(i);
+            if (playerGiving.get(i).getSymbol().equals(symbol)) { //USER WILL NEED TO BE ALERTED THEY DO HAVE A MATCH
+                if (!userTurn){
+                    giveCard(i);
+                    i--; //this way you check value 'i' again, since 'i' now holds new card
+                }
                 noMatches = false;
-                i--; //this way you check value 'i' again, since 'i' now holds new card
             }
         }
         if (noMatches) {
-            if (!deck.isEmpty()) {
-                playerAsking.add(deck.getNextCard());
-            }
+            drawCard();
         }
         userTurn = !userTurn;
         return noMatches;
     }
+    
+    public void giveCard(int index){
+        if (userTurn){
+            userHand.add(compHand.get(index));
+            compHand.remove(index);
+            checkUserBooks();
+        }
+        else{
+            compHand.add(userHand.get(index));
+            userHand.remove(index);
+            checkCompBooks();
+        }
+    }
+    
+    public void drawCard(){
+        if (!deck.isEmpty()){
+            if (userTurn){
+                userHand.add(deck.getNextCard());
+            }
+            else{
+                compHand.add(deck.getNextCard());
+            }
+        }
+    }
+   
    
 //a match of 4 is called a book
     public boolean checkUserBooks(){
