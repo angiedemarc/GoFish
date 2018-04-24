@@ -15,7 +15,16 @@ public class App {
      */
     public static void main(String[] args) {
         GoFish goFish = new GoFish();
-        System.out.println(goFish.noMatchGoFish(goFish.getUserHand().get(0).getSymbol()));
+        
+        //was testing to see if noMatchGoFish worked (it does)
+//        System.out.println("COMPUTER'S HAND" + goFish.getCompHand());
+//        System.out.println("USER'S HAND" + goFish.getUserHand());
+//        System.out.println("");
+//        System.out.println(goFish.noMatchGoFish(goFish.getUserHand().get(0).getSymbol()));
+//        System.out.println(goFish.noMatchGoFish(goFish.getUserHand().get(0).getSymbol()));
+//        
+//        System.out.println("COMPUTER'S HAND" + goFish.getCompHand());
+//        System.out.println("USER'S HAND" + goFish.getUserHand());
     }
     
 }

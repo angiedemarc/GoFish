@@ -26,6 +26,7 @@ public class GoFish {
         this.compScore = 0;
         View view = new View(this);
         this.deck = new Deck();
+        deck.shuffle();
         int numPlayers = 2;
         int numStartingCards = 7;
         Card[][] cardsDealt = deck.dealHands(numPlayers, numStartingCards);
@@ -40,10 +41,28 @@ public class GoFish {
         }
         userTurn = true; //starts as user's turn - might delete later
     }
+    
+    public boolean isGameOver(){
+        if (userScore + compScore == 13)
+            return true;
+        return false;
+    }
+    
+    //returns the symbol the computer is asking for
+    public String compTurn(){
+        if (!compHand.isEmpty()){
+            int rand = (int) (Math.random()*compHand.size());
+            return compHand.get(rand).getSymbol();
+        }
+        else{
+            int rand = (int) (Math.random()*userHand.size());
+            return userHand.get(rand).getSymbol();
+        }
+    }
 
     //will be called when user clicks button 'go fish' or when it is computer's turn
     //parameter is the symbol the player asked for
-    //returns 'ture' if there were no matches
+    //returns 'true' if there were no matches
     public boolean noMatchGoFish(String symbol) {
         boolean noMatches = true; //'lied' will be true if they actually did have a card with that symbol
         ArrayList<Card> playerAsking; //player asking for any cards with 'symbol'
@@ -58,74 +77,20 @@ public class GoFish {
         }
         for (int i = 0; i < playerGiving.size(); i++) {
             if (playerGiving.get(i).getSymbol().equals(symbol)) {
-                System.out.println("Match was found");
                 //THIS CODE SWITCHES CARD WITHOUT ASKING USER
-                compHand.add(userHand.get(i));
-                userHand.remove(i);
+                playerAsking.add(playerGiving.get(i));
+                playerGiving.remove(i);
                 noMatches = false;
+                i--; //this way you check value 'i' again, since 'i' now holds new card
             }
         }
         if (noMatches) {
             if (!deck.isEmpty()) {
-                compHand.add(deck.getNextCard());
+                playerAsking.add(deck.getNextCard());
             }
         }
         userTurn = !userTurn;
         return noMatches;
-    }
-
-    public int getUserScore() {
-        return userScore;
-    }
-
-    public int getCompScore() {
-        return compScore;
-    }
-
-    public boolean isUserTurn() {
-        return userTurn;
-    }
-
- 
-
-    public ArrayList<Card> getCompHand() {
-        return compHand;
-    }
-
-    public ArrayList<Card> getUserHand() {
-        return userHand;
-    }
-    
-    public int getUserHandSize(){
-        return userHand.size();
-    }
-
-    public Deck getDeck() {
-        return deck;
-    }
-
-    public void setUserScore(int userScore) {
-        this.userScore = userScore;
-    }
-
-    public void setCompScore(int compScore) {
-        this.compScore = compScore;
-    }
-
-    public void setUserTurn(boolean userTurn) {
-        this.userTurn = userTurn;
-    }
-
-    public void setCompHand(ArrayList<Card> compHand) {
-        this.compHand = compHand;
-    }
-
-    public void setUserHand(ArrayList<Card> userHand) {
-        this.userHand = userHand;
-    }
-
-    public void setDeck(Deck deck) {
-        this.deck = deck;
     }
    
 //a match of 4 is called a book
@@ -194,4 +159,59 @@ public class GoFish {
       return this.compScore;
     }  
 
+     
+     //getters
+     public int getUserScore() {
+        return userScore;
+    }
+
+    public int getCompScore() {
+        return compScore;
+    }
+
+    public boolean isUserTurn() {
+        return userTurn;
+    }
+
+    public ArrayList<Card> getCompHand() {
+        return compHand;
+    }
+
+    public ArrayList<Card> getUserHand() {
+        return userHand;
+    }
+    
+    public int getUserHandSize(){
+        return userHand.size();
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    //setters
+    public void setUserScore(int userScore) {
+        this.userScore = userScore;
+    }
+
+    public void setCompScore(int compScore) {
+        this.compScore = compScore;
+    }
+
+    public void setUserTurn(boolean userTurn) {
+        this.userTurn = userTurn;
+    }
+
+    public void setCompHand(ArrayList<Card> compHand) {
+        this.compHand = compHand;
+    }
+
+    public void setUserHand(ArrayList<Card> userHand) {
+        this.userHand = userHand;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+     
 }
