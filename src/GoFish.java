@@ -158,8 +158,7 @@ public class GoFish {
       this.compScore += 1;
       return this.compScore;
     }  
-
-     
+ 
      //getters
      public int getUserScore() {
         return userScore;

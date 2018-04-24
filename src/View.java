@@ -83,6 +83,18 @@ public class View extends JFrame {
     
     public void goFish() {
         // connects to method in GoFish
+//        if(!goFish.getDeck().isEmpty()){
+//            goFish.getDeck().getNextCard();
+//        }
+//        else{
+//            System.out.println("No cards left in deck!");
+//        }
+//        
+//        //
+//        
+//        goFish.noMatchGoFish(symbol);
+//        
+       
     }
     
     public void askForCard() {
@@ -90,10 +102,10 @@ public class View extends JFrame {
     }
     
     public void drawCard() {
-        // connects to method in GoFish
+        // connects to method in GoFish, user draws card from deck
     }
     
     public void giveCard() {
-        // connects to method in GoFish
+        // connects to method in GoFish, 
     }
 }
