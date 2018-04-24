@@ -97,15 +97,25 @@ public class View extends JFrame {
        
     }
     
-    public void askForCard() {
+    public void askForCard() { //needs a way for user to specify what card they wanna ask for
         // connects to method in GoFish
+        
+        //String userAsk = 
+        
+        //goFish.noMatchGoFish(symbol);
     }
     
     public void drawCard() {
         // connects to method in GoFish, user draws card from deck
+        
+       // goFish.drawCard()
+        
+        //
     }
     
     public void giveCard() {
         // connects to method in GoFish, 
+        
+       // goFish.giveCard();
     }
 }
