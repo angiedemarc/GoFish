@@ -14,12 +14,12 @@ import java.util.Iterator;
  */
 public class GoFish {
 
-    int userScore;
-    int compScore;
-    ArrayList<Card> compHand = new ArrayList();
-    ArrayList<Card> userHand = new ArrayList();
-    Deck deck;
-    boolean userTurn; //might delete later
+    private int userScore;
+    private int compScore;
+    private ArrayList<Card> compHand = new ArrayList();
+    private ArrayList<Card> userHand = new ArrayList();
+    private Deck deck;
+    private boolean userTurn; //might delete later
 
     public GoFish() {
         this.userScore = 0;
@@ -43,23 +43,25 @@ public class GoFish {
 
     //will be called when user clicks button 'go fish'
     //parameter is the symbol the computer asked for
-    public void noMatchGoFish(String symbol) {
-        boolean lied = false; //'lied' will be true if they actually did have a card with that symbol
+    //returns 'ture' if there were no matches
+    public boolean noMatchGoFish(String symbol) {
+        boolean noMatches = true; //'lied' will be true if they actually did have a card with that symbol
         for (int i = 0; i < userHand.size(); i++) {
             if (userHand.get(i).getSymbol().equals(symbol)) {
                 System.out.println("You lied!! You are going to give them this card");
                 //code to give the computer the card they asked for
                 compHand.add(userHand.get(i));
                 userHand.remove(i);
-                lied = true;
+                noMatches = false;
             }
         }
-        if (!lied) {
+        if (noMatches) {
             if (!deck.isEmpty()) {
                 compHand.add(deck.getNextCard());
             }
         }
         userTurn = !userTurn;
+        return noMatches;
     }
 
     public int getUserScore() {
