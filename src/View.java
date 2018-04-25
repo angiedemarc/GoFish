@@ -106,16 +106,15 @@ public class View extends JFrame {
     }
     
     public void drawCard() {
-        // connects to method in GoFish, user draws card from deck
         
-       // goFish.drawCard()
+        goFish.drawCard();
         
-        //
     }
     
     public void giveCard() {
-        // connects to method in GoFish, 
-        
-       // goFish.giveCard();
+        if(!goFish.getUserHand().isEmpty()){
+           // goFish.giveCard();
+        }
+
     }
 }
