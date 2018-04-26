@@ -86,8 +86,8 @@ public class GoFish {
         }
         if (noMatches) {
             drawCard();
+            userTurn = !userTurn;
         }
-        userTurn = !userTurn;
         return noMatches;
     }
     
