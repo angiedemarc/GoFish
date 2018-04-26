@@ -77,10 +77,10 @@ public class GoFish {
         }
         for (int i = 0; i < playerGiving.size(); i++) {
             if (playerGiving.get(i).getSymbol().equals(symbol)) { //USER WILL NEED TO BE ALERTED THEY DO HAVE A MATCH
-                if (!userTurn){
+                //if (userTurn){ not sure if this would work...wanted to make it be user would HAVE to say correctly 'go fish' or 'give card'
                     giveCard(i);
                     i--; //this way you check value 'i' again, since 'i' now holds new card
-                }
+                //}
                 noMatches = false;
             }
         }
@@ -120,7 +120,7 @@ public class GoFish {
     public boolean checkUserBooks(){
         boolean foundFour = false;
         int count = 0; 
-        for(int i = 0; i < userHand.size()-1; i++){
+        for(int i = 0; i < userHand.size()-2; i++){
             for(int j = i + 1; j < userHand.size(); j++){
                 if(userHand.get(i).compareTo(userHand.get(j)) == 0){
                     count++;
@@ -139,11 +139,12 @@ public class GoFish {
         return foundFour;
     }
     
+    //only check symbol just given
     public boolean checkCompBooks(){
         boolean foundFour = false;
         int count = 0;
        
-        for(int i = 0; i < compHand.size()-1; i++){
+        for(int i = 0; i < compHand.size()-2; i++){
             for(int j = i+1; j < compHand.size(); j++){
                 if(compHand.get(i).compareTo(userHand.get(j)) == 0){
                     count++;
@@ -209,6 +210,10 @@ public class GoFish {
 
     public Deck getDeck() {
         return deck;
+    }
+    
+    public boolean getUserTurn(){
+        return userTurn;
     }
 
     //setters

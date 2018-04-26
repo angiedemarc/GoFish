@@ -1,3 +1,6 @@
+
+import java.util.Scanner;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,7 +18,9 @@ public class App {
      */
     public static void main(String[] args) {
         GoFish goFish = new GoFish();
-        
+        Scanner keyboard = new Scanner(System.in);
+        String response;
+        String compAsk;
         //was testing to see if noMatchGoFish worked (it does)
 //        System.out.println("COMPUTER'S HAND" + goFish.getCompHand());
 //        System.out.println("USER'S HAND" + goFish.getUserHand());
@@ -25,6 +30,24 @@ public class App {
 //        
 //        System.out.println("COMPUTER'S HAND" + goFish.getCompHand());
 //        System.out.println("USER'S HAND" + goFish.getUserHand());
+
+        //allows you to play 'go fish' without GUI
+        while (!goFish.getDeck().isEmpty()){
+            while (goFish.getUserTurn()){
+                System.out.println("Your hand: " + goFish.getUserHand());
+                System.out.println("Computer hand: " + goFish.getCompHand());
+                System.out.println("What symbol would you like to ask for?");
+                goFish.noMatchGoFish(keyboard.nextLine());
+            }
+            while (!goFish.getUserTurn()){
+                System.out.println("Your hand: " + goFish.getUserHand());
+                System.out.println("Computer hand: " + goFish.getCompHand());
+                compAsk = goFish.compTurn();
+                System.out.println("Do you have any " + compAsk);
+                response = keyboard.nextLine();
+                    goFish.noMatchGoFish(compAsk);
+            }
+        }
     }
     
 }
