@@ -117,45 +117,39 @@ public class GoFish {
    
    
 //a match of 4 is called a book
+//compares last element added to hand
     public boolean checkUserBooks(){
         boolean foundFour = false;
         int count = 0; 
-        for(int i = 0; i < userHand.size()-2; i++){
-            for(int j = i + 1; j < userHand.size(); j++){
-                if(userHand.get(i).compareTo(userHand.get(j)) == 0){
-                    count++;
-//did a simpler test with integers using this layout and it didn't work properly with 4 but it did with 3
-                    if(count == 3 || count % 3 == 0){
-                        System.out.println("You've got a book! You earned one point.");
-                        updateUserScore();
-                        removeFromHand(userHand, userHand.get(i).getSymbol());
-                        foundFour = true;
-                    }
+        for(int i = 0; i < userHand.size(); i++){
+            if(userHand.get(i).compareTo(userHand.get(userHand.size()-1)) == 0){
+                count++;
+                if(count == 4 || count % 4 == 0){
+                    System.out.println("You scored a point!");
+                    foundFour = true;
+                    updateUserScore();
+                    removeFromHand(userHand, userHand.get(i).getSymbol());
                 }
             }
-            count = 0;
         }
         
         return foundFour;
     }
     
-    //only check symbol just given
     public boolean checkCompBooks(){
         boolean foundFour = false;
         int count = 0;
        
         for(int i = 0; i < compHand.size()-2; i++){
-            for(int j = i+1; j < compHand.size(); j++){
-                if(compHand.get(i).compareTo(userHand.get(j)) == 0){
-                    count++;
-                    if(count == 3 || count % 3 == 0){
-                        foundFour = true;
-                        updateCompScore();
-                        removeFromHand(compHand, compHand.get(i).getSymbol());
-                    }
+           if(compHand.get(i).compareTo(compHand.get(compHand.size()-1)) == 0){
+                count++;
+                if(count == 4 || count % 4 == 0){
+                    System.out.println("Computer scored a point!");
+                    foundFour = true;
+                    updateCompScore();
+                    removeFromHand(compHand, compHand.get(i).getSymbol());
                 }
             }
-            count = 0;
         }
         
         return foundFour;
