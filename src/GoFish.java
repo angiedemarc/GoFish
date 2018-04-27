@@ -86,7 +86,7 @@ public class GoFish {
                 noMatches = false;
             }
         }
-        if (noMatches) {
+        if (noMatches && !userTurn) {
             drawCard();
             userTurn = !userTurn;
         }
@@ -122,6 +122,7 @@ public class GoFish {
             if (userTurn) {
                 userHand.add(deck.getNextCard());
                 checkUserBooks();
+                userTurn = false;
             } else {
                 compHand.add(deck.getNextCard());
                 checkCompBooks();

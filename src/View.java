@@ -92,12 +92,15 @@ public class View extends JFrame {
     }
 
     public void compTurn() {
+        String requestTemp = request;
         request = goFish.compTurn();
+        while (requestTemp.equals(request)){
+            request = goFish.compTurn();
+        }
         compAskLabel.setText("Do you have any..." + request + "s?");
     }
 
     public void goFish() {
-        alert.setText("");
         // connects to method in GoFish
         if (!goFish.getUserTurn() && !goFish.noMatchGoFish(request)) {
             alert.setText("Actually, you had a " + request + " and it was given to the computer");
@@ -110,8 +113,8 @@ public class View extends JFrame {
     }
 
     public void askForCard() {
-        alert.setText("");
-        if (goFish.getUserTurn()) {
+        if (goFish.getUserTurn() && !alert.getText().equals("Go Fish!")) {
+            alert.setText("");
             request = goFish.getUserHand().get(list.getSelectedIndex()).getSymbol();
             if (goFish.noMatchGoFish(request)) {
                 compAskLabel.setText("Go Fish!");
@@ -122,8 +125,8 @@ public class View extends JFrame {
 
     public void drawCard() {
         alert.setText("");
-        goFish.drawCard();
         if (goFish.getUserTurn()){
+            goFish.drawCard();
             compTurn();
         }
         setCardDisplay();
