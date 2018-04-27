@@ -93,18 +93,30 @@ public class GoFish {
         return noMatches;
     }
 
-    public void giveCard(int index) {
+    public boolean giveCard(int index) {
         if (userTurn) {
             userHand.add(compHand.get(index));
             compHand.remove(index);
             checkUserBooks();
+            return false; //doesn't really matter because not used
         } else {
+            String symbol = userHand.get(index).getSymbol();
             compHand.add(userHand.get(index));
             userHand.remove(index);
             checkCompBooks();
+            return giveMorePoss(symbol);
         }
     }
-
+    
+    public boolean giveMorePoss(String symbol){
+        for (Card c : userHand){
+            if (c.getSymbol().equals(symbol)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void drawCard() {
         if (!deck.isEmpty()) {
             if (userTurn) {
