@@ -6,7 +6,6 @@ import java.util.Scanner;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author angie
@@ -32,22 +31,29 @@ public class App {
 //        System.out.println("USER'S HAND" + goFish.getUserHand());
 
         //allows you to play 'go fish' without GUI
-        while (!goFish.getDeck().isEmpty()){
-            while (goFish.getUserTurn()){
+        while (!goFish.getDeck().isEmpty()) {
+            while (goFish.getUserTurn()) {
                 System.out.println("Your hand: " + goFish.getUserHand());
-                System.out.println("Computer hand: " + goFish.getCompHand());
+                //System.out.println("Computer hand: " + goFish.getCompHand());
                 System.out.println("What symbol would you like to ask for?");
-                goFish.noMatchGoFish(keyboard.nextLine());
+                if (!goFish.noMatchGoFish(keyboard.nextLine())){
+                    System.out.println("The computer had that card! It's been added to your hand");
+                }
+                else{
+                    System.out.println("Go fish!");
+                }
             }
-            while (!goFish.getUserTurn()){
+            while (!goFish.getUserTurn()) {
                 System.out.println("Your hand: " + goFish.getUserHand());
                 System.out.println("Computer hand: " + goFish.getCompHand());
                 compAsk = goFish.compTurn();
                 System.out.println("Do you have any " + compAsk);
                 response = keyboard.nextLine();
-                    goFish.noMatchGoFish(compAsk);
+                if (!goFish.noMatchGoFish(compAsk) && response.toLowerCase().contains("go fish")) {
+                    System.out.println("Actually, you had a " + compAsk + " and it was given to the computer");
+                }
             }
         }
     }
-    
+
 }
