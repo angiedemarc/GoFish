@@ -20,11 +20,13 @@ public class View extends JFrame {
     private JPanel compTurnPanel;
     private JPanel cardPanel;    
     private JPanel buttonPanel;
-    private JTextField compCardField;
+    private JLabel compAskLabel;
     private DefaultListModel model;
     private JList list; 
     private JScrollPane pane;
     private final GoFish goFish;
+    
+    private String request;
 
     public View(GoFish goFish) {
         this.goFish = goFish;
@@ -45,9 +47,8 @@ public class View extends JFrame {
         pane = new JScrollPane(list);
         
         compTurnPanel = new JPanel(new BorderLayout());
-        compTurnPanel.add(new JLabel("Do you have a: "), BorderLayout.NORTH);
-        compCardField = new JTextField();
-        compTurnPanel.add(compCardField, BorderLayout.CENTER);
+        compAskLabel = new JLabel("Do you have any... ");
+        compTurnPanel.add(compAskLabel, BorderLayout.NORTH);
         
         cardPanel = new JPanel(new BorderLayout());
         cardPanel.add(new JLabel("Your cards"), BorderLayout.NORTH);
@@ -73,32 +74,32 @@ public class View extends JFrame {
         getContentPane().add(compTurnPanel, BorderLayout.NORTH);
         getContentPane().add(cardPanel, BorderLayout.CENTER);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-            
+        setCardDisplay();
         setVisible(true);
     }
     
     public void setCardDisplay() {
-        
+        model.clear();
+        System.out.println(goFish.getUserHandSize());
+        for (int i = 0; i<goFish.getUserHandSize(); i++){
+            model.add(i, goFish.getUserHand().get(i));
+        }
+    }
+    
+    public void compTurn(){
+        request = goFish.compTurn();
+        compAskLabel.setText("Do you have any..." + request + "s?");
     }
     
     public void goFish() {
         // connects to method in GoFish
-//        if(!goFish.getDeck().isEmpty()){
-//            goFish.getDeck().getNextCard();
-//        }
-//        else{
-//            System.out.println("No cards left in deck!");
-//        }
-//        
-//        //
-//        
-//        goFish.noMatchGoFish(symbol);
-//        
-       
+        if(!goFish.getUserTurn() && !goFish.noMatchGoFish(request)){
+                //alert them 'actually, you had a 'request' and it was given to the computer
+            }
+        
     }
     
     public void askForCard() { //needs a way for user to specify what card they wanna ask for
-        // connects to method in GoFish
         
         //String userAsk = 
         

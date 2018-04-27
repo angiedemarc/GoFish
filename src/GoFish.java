@@ -26,7 +26,6 @@ public class GoFish {
         this.compScore = 0;
         int numPlayers = 2;
         int numStartingCards = 7;
-        View view = new View(this);
         Card[][]cardsDealt;
         do{
             this.deck = new Deck();
@@ -43,6 +42,7 @@ public class GoFish {
             }
         }
         userTurn = true; //starts as user's turn - might delete later
+        View view = new View(this);
     }
 
     public boolean isGameOver() {
