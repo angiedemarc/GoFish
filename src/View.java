@@ -25,6 +25,7 @@ public class View extends JFrame {
     private DefaultListModel model;
     private JList list;
     private JScrollPane pane;
+    private boolean mustAskForCard = false;
     private final GoFish goFish;
 
     private String request;
@@ -94,42 +95,63 @@ public class View extends JFrame {
     public void compTurn() {
         String requestTemp = request;
         request = goFish.compTurn();
-        while (requestTemp.equals(request)){
+        if (!request.equals("endGame")){
+        while (requestTemp.equals(request)) {
             request = goFish.compTurn();
         }
         compAskLabel.setText("Do you have any..." + request + "s?");
     }
+        else{
+            checkHands();
+        }
+    }
 
     public void goFish() {
         // connects to method in GoFish
-        if (!goFish.getUserTurn() && !goFish.noMatchGoFish(request)) {
-            alert.setText("Actually, you had a " + request + " and it was given to the computer");
+        if (!goFish.getUserTurn() && !mustAskForCard) {
+            if (!goFish.noMatchGoFish(request)) {
+                alert.setText("Actually, you had a " + request + " and it was given to the computer");
+            } else {
+                alert.setText("Your turn!");
+            }
             compTurn();
         }
-        if (goFish.getUserTurn()) {
+        if (goFish.getUserTurn() && !mustAskForCard) {
             compAskLabel.setText("");
         }
         setCardDisplay();
+        checkHands();
     }
 
     public void askForCard() {
-        if (goFish.getUserTurn() && !alert.getText().equals("Go Fish!")) {
+        if (goFish.getUserTurn() && !alert.getText().equals("Go Fish!") && !mustAskForCard) {
             alert.setText("");
-            request = goFish.getUserHand().get(list.getSelectedIndex()).getSymbol();
-            if (goFish.noMatchGoFish(request)) {
-                compAskLabel.setText("Go Fish!");
+            if (list.getSelectedIndex() != -1) {
+                request = goFish.getUserHand().get(list.getSelectedIndex()).getSymbol();
+                if (goFish.noMatchGoFish(request)) {
+                    compAskLabel.setText("Go Fish!");
+                    mustAskForCard = true;
+                }
+            } else {
+                checkHands();
+                alert.setText("You must select a card to ask for the symbol of!");
             }
+
         }
         setCardDisplay();
+        checkHands();
     }
 
     public void drawCard() {
         alert.setText("");
-        if (goFish.getUserTurn()){
+        if (goFish.getUserTurn() && compAskLabel.getText().equals("Go Fish!")) {
             goFish.drawCard();
+            mustAskForCard = false;
+            checkHands();
             compTurn();
         }
         setCardDisplay();
+        checkHands();
     }
 
     public void giveCard() {
@@ -137,16 +159,43 @@ public class View extends JFrame {
 //        if (!goFish.getUserTurn() && goFish.getUserHand().get(list.getSelectedIndex()).getSymbol() == request){
 //            goFish.giveCard(list.getSelectedIndex());
 //        }
-        if (!goFish.getUserTurn()) {
-            if (!(goFish.getUserHand().get(list.getSelectedIndex()).getSymbol() == request)){
+        if (!goFish.getUserTurn() && !mustAskForCard) {
+            if (!(goFish.getUserHand().get(list.getSelectedIndex()).getSymbol().equals(request))) {
                 alert.setText("That actually wasn't a match!");
-            }
-            else{
-                if (!goFish.giveCard(list.getSelectedIndex())){
+            } else {
+                if (!goFish.giveCard(list.getSelectedIndex())) {
                     compTurn();
+                    checkHands();
                 }
             }
         }
         setCardDisplay();
+        checkHands();
+    }
+    
+    public void checkHands(){
+    if (goFish.checkEmptyHandsAndEndGame()) {
+            endGame();
+        }
+    }
+    public void endGame() {
+        if (goFish.getCompScore()> goFish.getUserScore()){            
+            //set view to losing view
+            WinningCompView wcv = new WinningCompView(goFish);
+            wcv.setVisible(true);
+            this.dispose();
+        }
+        else if (goFish.getCompScore() < goFish.getUserScore()){
+            //set view to winning view
+            WinningUserView wuv = new WinningUserView(goFish);
+            wuv.setVisible(true);
+            this.dispose();
+        }
+        else{
+            //set view to tied game view
+            TiedGameView tied = new TiedGameView(goFish);
+            tied.setVisible(true);
+            this.dispose();
+        }
     }
 }

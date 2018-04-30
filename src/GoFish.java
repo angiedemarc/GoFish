@@ -26,12 +26,12 @@ public class GoFish {
         this.compScore = 0;
         int numPlayers = 2;
         int numStartingCards = 7;
-        Card[][]cardsDealt;
-        do{
+        Card[][] cardsDealt;
+        do {
             this.deck = new Deck();
             deck.shuffle();
             cardsDealt = deck.dealHands(numPlayers, numStartingCards);
-        }while (!checkAllForBooks(cardsDealt)); 
+        } while (!checkAllForBooks(cardsDealt));
         for (int i = 0; i < numPlayers; i++) {
             for (int j = 0; j < numStartingCards; j++) {
                 if (i == 0) {
@@ -57,9 +57,12 @@ public class GoFish {
         if (!compHand.isEmpty()) {
             int rand = (int) (Math.random() * compHand.size());
             return compHand.get(rand).getSymbol();
-        } else {
+        } else if (!userHand.isEmpty()){
             int rand = (int) (Math.random() * userHand.size());
             return userHand.get(rand).getSymbol();
+        }
+        else{
+            return "endGame";
         }
     }
 
@@ -67,6 +70,7 @@ public class GoFish {
     //parameter is the symbol the player asked for
     //returns 'true' if there were no matches
     public boolean noMatchGoFish(String symbol) {
+        //System.out.println("UPDATE: \n user: " + userHand + " \ncomp:  " + compHand);
         boolean noMatches = true; //'lied' will be true if they actually did have a card with that symbol
         ArrayList<Card> playerAsking; //player asking for any cards with 'symbol'
         ArrayList<Card> playerGiving; //player who is checking to see if they have any cards with 'symbol' in their hand
@@ -98,6 +102,7 @@ public class GoFish {
             userHand.add(compHand.get(index));
             compHand.remove(index);
             checkUserBooks();
+            checkCompBooks();
             return false; //doesn't really matter because not used
         } else {
             String symbol = userHand.get(index).getSymbol();
@@ -106,29 +111,19 @@ public class GoFish {
             checkCompBooks();
             return giveMorePoss(symbol);
         }
+        
     }
-    
-    public boolean giveMorePoss(String symbol){
-        for (Card c : userHand){
-            if (c.getSymbol().equals(symbol)){
+
+    public boolean giveMorePoss(String symbol) {
+        for (Card c : userHand) {
+            if (c.getSymbol().equals(symbol)) {
                 return true;
             }
         }
         return false;
     }
+
     
-    public void drawCard() {
-        if (!deck.isEmpty()) {
-            if (userTurn) {
-                userHand.add(deck.getNextCard());
-                checkUserBooks();
-                userTurn = false;
-            } else {
-                compHand.add(deck.getNextCard());
-                checkCompBooks();
-            }
-        }
-    }
 
 //a match of 4 is called a book
 //compares last element added to hand
@@ -138,8 +133,8 @@ public class GoFish {
         for (int i = 0; i < userHand.size(); i++) {
             if (userHand.get(i).compareTo(userHand.get(userHand.size() - 1)) == 0) {
                 count++;
-                if (count == 4 || count % 4 == 0) {
-                    System.out.println("You scored a point!");
+                if (count == 4) {
+                    System.out.println("\n YOU SCORED A POINT!" + userHand.get(userHand.size()-1).getSymbol() + "\n");
                     foundFour = true;
                     updateUserScore();
                     removeFromHand(userHand, userHand.get(i).getSymbol());
@@ -154,11 +149,11 @@ public class GoFish {
         boolean foundFour = false;
         int count = 0;
 
-        for (int i = 0; i < compHand.size() - 2; i++) {
+        for (int i = 0; i < compHand.size(); i++) {
             if (compHand.get(i).compareTo(compHand.get(compHand.size() - 1)) == 0) {
                 count++;
-                if (count == 4 || count % 4 == 0) {
-                    System.out.println("Computer scored a point!");
+                if (count == 4) {
+                    System.out.println("\n COMPUTER SCORED A POINT!" + compHand.get(compHand.size()-1).getSymbol() + "\n");
                     foundFour = true;
                     updateCompScore();
                     removeFromHand(compHand, compHand.get(i).getSymbol());
@@ -219,6 +214,45 @@ public class GoFish {
             }
         }
         return hand;
+    }
+
+    //returns true if game is over
+    public boolean checkEmptyHandsAndEndGame() {
+        if (userHand.isEmpty()) {
+            for (int i = 0; i < 5; i++) {
+                drawCard(userHand);
+            }
+        }
+        if (compHand.isEmpty()){
+            for (int i = 0; i < 5; i++) {
+                drawCard(compHand);
+            }
+        }
+        if (userHand.isEmpty() && compHand.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
+    public void drawCard() {
+        if (!deck.isEmpty()) {
+            if (userTurn) {
+                userHand.add(deck.getNextCard());
+                checkUserBooks();
+                userTurn = false;
+            } else {
+                compHand.add(deck.getNextCard());
+                checkCompBooks();
+            }
+        }
+    }
+    
+    public void drawCard(ArrayList hand) {
+        if (!deck.isEmpty()) {
+            hand.add(deck.getNextCard());
+            checkUserBooks();
+            checkCompBooks();
+        }
     }
 
     public int updateUserScore() {
