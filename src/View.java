@@ -185,16 +185,10 @@ public class View extends JFrame {
             wcv.setVisible(true);
             this.dispose();
         }
-        else if (goFish.getCompScore() < goFish.getUserScore()){
+        else {
             //set view to winning view
             WinningUserView wuv = new WinningUserView(goFish);
             wuv.setVisible(true);
-            this.dispose();
-        }
-        else{
-            //set view to tied game view
-            TiedGameView tied = new TiedGameView(goFish);
-            tied.setVisible(true);
             this.dispose();
         }
     }

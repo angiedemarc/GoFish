@@ -40,7 +40,7 @@ public class WinningCompView extends JFrame {
 
         
         
-        JLabel compScore = new JLabel("Computer's Score: " + goFish.getUserScore());
+        JLabel compScore = new JLabel("Computer's Score: " + goFish.getCompScore());
         compScore.setBounds(425, 10, 200, 100);
         JLabel message = new JLabel("The Computer has won!");
         message.setBounds(250, 50, 200, 100);
