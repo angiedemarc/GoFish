@@ -27,6 +27,8 @@ public class View extends JFrame {
     private JScrollPane pane;
     private boolean mustAskForCard = false;
     private final GoFish goFish;
+    private JButton goFishAndAskButton;
+    private JButton giveAndDrawButton;
 
     private String request;
 
@@ -61,21 +63,28 @@ public class View extends JFrame {
         cardPanel.add(new JLabel("Your cards"), BorderLayout.NORTH);
         cardPanel.add(pane, BorderLayout.CENTER);
 
-        JButton goFishButton = new JButton("Go Fish!");
-        JButton giveCardButton = new JButton("Give card");
-        JButton askButton = new JButton("Ask for card");
-        JButton drawCardButton = new JButton("Draw new card");
+        goFishAndAskButton.setText("Ask For Card");
+        giveAndDrawButton.setText("Draw Card");
+        
+//        JButton goFishButton = new JButton("Go Fish!");
+//        JButton giveCardButton = new JButton("Give card");
+//        JButton askButton = new JButton("Ask for card");
+//        JButton drawCardButton = new JButton("Draw new card");
+        buttonPanel = new JPanel(new GridLayout(1, 2));
+        buttonPanel.add(goFishAndAskButton);
+        buttonPanel.add(giveAndDrawButton);
 
-        buttonPanel = new JPanel(new GridLayout(1, 4));
-        buttonPanel.add(goFishButton);
-        buttonPanel.add(giveCardButton);
-        buttonPanel.add(askButton);
-        buttonPanel.add(drawCardButton);
-
-        goFishButton.addActionListener(event -> goFish());
-        askButton.addActionListener(event -> askForCard());
-        drawCardButton.addActionListener(event -> drawCard());
-        giveCardButton.addActionListener(event -> giveCard());
+//        buttonPanel = new JPanel(new GridLayout(1, 4));
+//        buttonPanel.add(goFishButton);
+//        buttonPanel.add(giveCardButton);
+//        buttonPanel.add(askButton);
+//        buttonPanel.add(drawCardButton);
+//        goFishButton.addActionListener(event -> goFish());
+//        askButton.addActionListener(event -> askForCard());
+//        drawCardButton.addActionListener(event -> drawCard());
+//        giveCardButton.addActionListener(event -> giveCard());
+        goFishAndAskButton.addActionListener(event -> button1());
+        giveAndDrawButton.addActionListener(event -> button2());
 
         setContentPane(new JPanel(new BorderLayout()));
         getContentPane().add(compTurnPanel, BorderLayout.NORTH);
@@ -95,24 +104,41 @@ public class View extends JFrame {
     public void compTurn() {
         String requestTemp = request;
         request = goFish.compTurn();
-        if (!request.equals("endGame")){
-        while (requestTemp.equals(request)) {
-            request = goFish.compTurn();
-        }
-        compAskLabel.setText("Do you have any..." + request + "s?");
-    }
-        else{
+        if (!request.equals("endGame")) {
+            while (requestTemp.equals(request)) {
+                request = goFish.compTurn();
+            }
+            compAskLabel.setText("Do you have any..." + request + "s?");
+        } else {
             checkHands();
+        }
+    }
+
+    public void button1() {
+        if (goFish.getUserTurn()) {
+            askForCard();
+        } else {
+            goFish();
+        }
+    }
+
+    public void button2() {
+        if (goFish.getUserTurn()) {
+            drawCard();
+        } else {
+            giveCard();
         }
     }
 
     public void goFish() {
         // connects to method in GoFish
-        if (!goFish.getUserTurn() && !mustAskForCard) {
+        if (!mustAskForCard) {
             if (!goFish.noMatchGoFish(request)) {
                 alert.setText("Actually, you had a " + request + " and it was given to the computer");
             } else {
                 alert.setText("Your turn!");
+                goFishAndAskButton.setText("Ask For Card");
+                giveAndDrawButton.setText("Draw Card");
             }
             compTurn();
         }
@@ -124,7 +150,7 @@ public class View extends JFrame {
     }
 
     public void askForCard() {
-        if (goFish.getUserTurn() && !alert.getText().equals("Go Fish!") && !mustAskForCard) {
+        if (!alert.getText().equals("Go Fish!") && !mustAskForCard) {
             alert.setText("");
             if (list.getSelectedIndex() != -1) {
                 request = goFish.getUserHand().get(list.getSelectedIndex()).getSymbol();
@@ -144,9 +170,11 @@ public class View extends JFrame {
 
     public void drawCard() {
         alert.setText("");
-        if (goFish.getUserTurn() && compAskLabel.getText().equals("Go Fish!")) {
+        if (compAskLabel.getText().equals("Go Fish!")) {
             goFish.drawCard();
             mustAskForCard = false;
+            goFishAndAskButton.setText("Go Fish!");
+            giveAndDrawButton.setText("Give Card");
             checkHands();
             compTurn();
         }
@@ -159,7 +187,7 @@ public class View extends JFrame {
 //        if (!goFish.getUserTurn() && goFish.getUserHand().get(list.getSelectedIndex()).getSymbol() == request){
 //            goFish.giveCard(list.getSelectedIndex());
 //        }
-        if (!goFish.getUserTurn() && !mustAskForCard) {
+        if (!mustAskForCard && list.getSelectedIndex() != -1) {
             if (!(goFish.getUserHand().get(list.getSelectedIndex()).getSymbol().equals(request))) {
                 alert.setText("That actually wasn't a match!");
             } else {
@@ -172,20 +200,20 @@ public class View extends JFrame {
         setCardDisplay();
         checkHands();
     }
-    
-    public void checkHands(){
-    if (goFish.checkEmptyHandsAndEndGame()) {
+
+    public void checkHands() {
+        if (goFish.checkEmptyHandsAndEndGame()) {
             endGame();
         }
     }
+
     public void endGame() {
-        if (goFish.getCompScore()> goFish.getUserScore()){            
+        if (goFish.getCompScore() > goFish.getUserScore()) {
             //set view to losing view
             WinningCompView wcv = new WinningCompView(goFish);
             wcv.setVisible(true);
             this.dispose();
-        }
-        else {
+        } else {
             //set view to winning view
             WinningUserView wuv = new WinningUserView(goFish);
             wuv.setVisible(true);
