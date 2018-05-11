@@ -137,6 +137,7 @@ public class GoFish {
                     System.out.println("\n YOU SCORED A POINT!" + userHand.get(userHand.size()-1).getSymbol() + "\n");
                     foundFour = true;
                     updateUserScore();
+                    System.out.println("user score: " + userScore);
                     removeFromHand(userHand, userHand.get(i).getSymbol());
                 }
             }
@@ -156,6 +157,7 @@ public class GoFish {
                     System.out.println("\n COMPUTER SCORED A POINT!" + compHand.get(compHand.size()-1).getSymbol() + "\n");
                     foundFour = true;
                     updateCompScore();
+                    System.out.println("computer score: " + compScore);
                     removeFromHand(compHand, compHand.get(i).getSymbol());
                 }
             }

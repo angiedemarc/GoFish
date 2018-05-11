@@ -34,7 +34,7 @@ public class WinningUserView extends JFrame {
 
         JLabel userScore = new JLabel("User's Score: " + goFish.getUserScore());
         userScore.setBounds(125, 10, 100, 100);
-        JLabel compScore = new JLabel("Computer's Score: " + goFish.getUserScore());
+        JLabel compScore = new JLabel("Computer's Score: " + goFish.getCompScore());
         compScore.setBounds(425, 10, 200, 100);
         JLabel message = new JLabel("You have won!");
         message.setBounds(275, 50, 200, 100);
